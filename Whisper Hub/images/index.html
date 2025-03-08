@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abir Mazumdar - Portfolio</title>
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome for contact icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; font-family: 'Roboto', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+
+    /* Background Carousel Container */
+    .background-carousel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .background-carousel img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .background-carousel img.active {
+      opacity: 0.6;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+      padding: 10px 20px;
+      z-index: 10;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      gap: 20px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #ffcc00;
+    }
+
+    /* Sections */
+    section {
+      min-height: 80vh;
+      padding: 60px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+    }
+    h1, h2 { margin-bottom: 15px; }
+    p { max-width: 800px; line-height: 1.6; margin-bottom: 20px; }
+
+    /* Typing Animation */
+    .typing-container {
+      font-size: 1.5em;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #ffcc00;
+      width: 0;
+      animation: typing 3s steps(40, end) forwards, blink 0.7s infinite step-end alternate;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* Profile Image */
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #ffcc00;
+      object-fit: cover;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 11;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1100px;
+      margin: 20px 0;
+    }
+    .project-card {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .project-card a {
+      color: #ffcc00;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* Experience Cards */
+    .experience-item {
+      background: rgba(0, 0, 0, 0.7);
+      margin: 10px auto;
+      padding: 15px;
+      max-width: 800px;
+      border-radius: 8px;
+    }
+
+    /* Contact Icons */
+    .contact-icons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .contact-icons a {
+      font-size: 2em;
+      color: #fff;
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .contact-icons a:hover {
+      transform: scale(1.2);
+      filter: brightness(150%);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .profile-img {
+        width: 80px;
+        height: 80px;
+        top: 15px;
+        left: 15px;
+      }
+      nav ul { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Carousel -->
+  <div class="background-carousel">
+    <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&q=80" class="active" alt="Background 1">
+    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80" alt="Background 2">
+    <img src="https://images.unsplash.com/photo-1526378800651-dd828c8d7255?auto=format&fit=crop&q=80" alt="Background 3">
+    <img src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&q=80" alt="Background 4">
+  </div>
+
+  <!-- Profile Image -->
+  <img src="https://source.unsplash.com/300x300/?portrait" alt="Profile Image" class="profile-img" />
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h1>Abir Mazumdar</h1>
+    <div class="typing-container" id="typing"></div>
+    <p>Welcome to my digital space where innovation meets elegance. I'm a budding AI-ML explorer ready to push boundaries.</p>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Project Alpha</h3>
+        <p>AI-powered solution for modern challenges.</p>
+        <a href="https://github.com/" target="_blank">View on GitHub</a>
+      </div>
+      <div class="project-card">
+        <h3>Project Beta</h3>
+        <p>Revolutionary web application with dynamic user experience.</p>
+        <a href="https://scholar.google.com/" target="_blank">View on Google Scholar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <h2>Experience</h2>
+    <div class="experience-item">
+      <h3>Senior Web Developer</h3>
+      <p>Collaborated with top MNCs to deliver cutting-edge web solutions, leading teams and projects to success.</p>
+    </div>
+    <div class="experience-item">
+      <h3>Freelance Consultant</h3>
+      <p>Crafted tailored solutions for diverse clients focusing on modern design and seamless user experiences.</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am Abir Mazumdar, a passionate technologist with a B.Tech and M.Tech from XYZ and ABC University. I excel in creating modern, user-centric digital experiences.</p>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Get in touch through the platforms below:</p>
+    <div class="contact-icons">
+      <a href="https://github.com/" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </section>
+
+  <script>
+    // Typing Animation
+    document.addEventListener("DOMContentLoaded", () => {
+      const text = "I am a budding AI-ML explorer...";
+      const typingEl = document.getElementById("typing");
+      let index = 0;
+      const speed = 100; // ms per character
+      function typeWriter() {
+        if (index < text.length) {
+          typingEl.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeWriter, speed);
+        }
+      }
+      typeWriter();
+    });
+
+    // Background Carousel Script
+    const images = document.querySelectorAll('.background-carousel img');
+    let current = 0;
+    setInterval(() => {
+      images[current].classList.remove('active');
+      current = (current + 1) % images.length;
+      images[current].classList.add('active');
+    }, 5000);
+  </script>
+</body>
+</html>

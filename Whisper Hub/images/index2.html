@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abir Mazumdar - Portfolio</title>
+
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome for contact icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+  <style>
+    /* Reset & Basic Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      scroll-behavior: smooth;
+      /* Fallback background just in case images fail */
+      background: #111;
+      color: #fff;
+    }
+
+    /* Two overlapping background slides for crossfade */
+    .bg-slide {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 1s ease-in-out;
+      z-index: -3; /* behind everything */
+    }
+    /* #bg1 starts visible with the first image to avoid black screen */
+    #bg1 {
+      opacity: 1;
+      background-image: url('https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&q=80');
+    }
+    #bg2 {
+      opacity: 0;
+      background-image: none; /* will be set by JS */
+    }
+
+    /* Gradient overlay for readability */
+    #bg-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: rgba(0,0,0,0.4);
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #ffcc00;
+    }
+
+    /* Profile Image */
+    .profile-img {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      border: 3px solid #ffcc00;
+      object-fit: cover;
+      position: absolute;
+      top: 60px; left: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.7);
+      z-index: 11; /* on top of overlay */
+    }
+
+    /* Sections */
+    section {
+      width: 100%;
+      /* Enough top padding so content doesn't get hidden behind nav */
+      padding-top: 90px;
+      padding-bottom: 50px; /* slightly less bottom padding */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 70vh; /* a bit smaller to reduce big empty space */
+    }
+    h1, h2 {
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    }
+    p {
+      max-width: 800px;
+      margin: 0 20px;
+      line-height: 1.5;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    }
+
+    /* Typing Animation */
+    .typing-container {
+      font-size: 1.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #ffcc00;
+      width: 0;
+      animation: typing 3s steps(40, end) forwards, blink 0.7s infinite step-end alternate;
+      margin-bottom: 15px;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* Projects Section - Cards */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 1200px;
+      margin-top: 20px;
+    }
+    .project-card {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .project-card a {
+      text-decoration: none;
+      color: #ffcc00;
+      font-weight: bold;
+    }
+
+    /* Experience Section */
+    .experience-item {
+      background: rgba(0, 0, 0, 0.7);
+      margin: 15px auto;
+      padding: 15px;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 8px;
+    }
+
+    /* Contact Icons */
+    .contact-icons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .contact-icons a {
+      font-size: 2em;
+      color: #fff;
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .contact-icons a:hover {
+      transform: scale(1.2);
+      filter: brightness(150%);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .profile-img {
+        width: 70px; height: 70px;
+        top: 50px; left: 10px;
+      }
+      nav ul { gap: 10px; }
+      .typing-container { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Two overlapping background slides for crossfade -->
+  <div id="bg1" class="bg-slide"></div>
+  <div id="bg2" class="bg-slide"></div>
+  <div id="bg-overlay"></div>
+
+  <!-- Profile Image -->
+  <img src="https://source.unsplash.com/300x300/?portrait" alt="Profile Image" class="profile-img" />
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h1>Abir Mazumdar</h1>
+    <div class="typing-container" id="typing"></div>
+    <p>Welcome to my personal space where technology meets creativity. I am a budding AI-ML explorer ready to innovate and inspire.</p>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <!-- Sample Project 1 -->
+      <div class="project-card">
+        <h3>Project Alpha</h3>
+        <p>A sample project that demonstrates AI-powered solutions.</p>
+        <a href="https://github.com/" target="_blank">View on GitHub</a>
+      </div>
+      <!-- Sample Project 2 -->
+      <div class="project-card">
+        <h3>Project Beta</h3>
+        <p>A demonstration of modern web technologies in a single-page application.</p>
+        <a href="https://scholar.google.com/" target="_blank">View on Google Scholar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <h2>Experience</h2>
+    <div class="experience-item">
+      <h3>Senior Web Developer</h3>
+      <p>Worked with top MNCs to deliver high-quality web solutions. Led teams and contributed to major projects over the years.</p>
+    </div>
+    <div class="experience-item">
+      <h3>Freelance Consultant</h3>
+      <p>Developed numerous client projects with a focus on modern design and seamless user experiences.</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      Myself, Abir Mazumdar, a passionate technologist with a B.Tech and M.Tech from XYZ and ABC University respectively. 
+      With a keen eye for detail and a drive for innovation, I thrive on creating modern, user-friendly applications.
+    </p>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Feel free to reach out through any of the platforms below:</p>
+    <div class="contact-icons">
+      <a href="https://github.com/" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </section>
+
+  <!-- JavaScript for Typing, Smooth Scrolling, & Crossfade Carousel -->
+  <script>
+    // 1. Typing Animation
+    document.addEventListener("DOMContentLoaded", () => {
+      const text = "I am a budding AI-ML explorer...";
+      const typingEl = document.getElementById("typing");
+      let index = 0;
+      const speed = 80; // typing speed
+
+      function typeWriter() {
+        if (index < text.length) {
+          typingEl.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeWriter, speed);
+        }
+      }
+      typeWriter();
+    });
+
+    // 2. Smooth Scrolling for Navigation
+    document.querySelectorAll('nav ul li a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // 3. Crossfade Background Carousel
+    const images = [
+      'https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1526378800651-dd828c8d7255?auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&q=80'
+    ];
+
+    // Preload images to avoid any flash of black
+    const preloaded = [];
+    images.forEach(src => {
+      const img = new Image();
+      img.src = src;
+      preloaded.push(img);
+    });
+
+    let currentIndex = 1; // We already used images[0] in #bg1 via CSS
+    const bg1 = document.getElementById('bg1');
+    const bg2 = document.getElementById('bg2');
+
+    // Put the second image on #bg2 so it’s ready for the first transition
+    bg2.style.backgroundImage = `url(${images[currentIndex]})`;
+
+    setInterval(() => {
+      // Decide which div is currently visible
+      const visible = bg1.style.opacity === '1' ? bg1 : bg2;
+      const hidden = visible === bg1 ? bg2 : bg1;
+
+      // Move to next image
+      currentIndex = (currentIndex + 1) % images.length;
+
+      // Prepare hidden div with next image
+      hidden.style.backgroundImage = `url(${images[currentIndex]})`;
+
+      // Crossfade: fade out the visible, fade in the hidden
+      visible.style.opacity = 0;
+      hidden.style.opacity = 1;
+    }, 6000); // 6-second interval for smoother transitions
+  </script>
+</body>
+</html>
